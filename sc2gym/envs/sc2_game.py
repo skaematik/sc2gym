@@ -51,7 +51,7 @@ class SC2GameEnv(gym.Env):
         print("seeded")
         return [seed]
 
-    def _step(self, action):
+    def step(self, action):
         return self._safe_step(action)
 
     def _safe_step(self, action):
@@ -73,7 +73,7 @@ class SC2GameEnv(gym.Env):
         self._total_reward += reward
         return obs, reward, obs.step_type == StepType.LAST, {}
 
-    def _reset(self):
+    def reset(self):
         if self._env is None:
             self._init_env()
         if self._episode > 0:
@@ -95,7 +95,7 @@ class SC2GameEnv(gym.Env):
     def _init_env(self):
         self._env = sc2_env.SC2Env(**self._kwargs)
 
-    def _close(self):
+    def close(self):
         if self._episode > 0:
             logger.info("Episode %d ended with reward %d after %d steps.",
                         self._episode, self._episode_reward, self._num_step)
@@ -103,7 +103,7 @@ class SC2GameEnv(gym.Env):
                         self._total_reward, float(self._total_reward) / self._episode)
         if self._env is not None:
             self._env.close()
-        super()._close()
+        super().close()
 
     @property
     def settings(self):
