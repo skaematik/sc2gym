@@ -52,6 +52,9 @@ class BaseMovement1dEnv(SC2GameEnv):
     def step(self, action):
         action = self._translate_action(action)
         obs, reward, done, info = self._safe_step(action)
+        if obs is False and reward is False and done is False and info is False:
+            self._post_reset()
+            obs, reward, done, info = self._safe_step(action)
         if obs is None:
             return None, 0, True, {}
         obs = self._extract_observation(obs)
@@ -84,8 +87,8 @@ class BaseMovement1dEnv(SC2GameEnv):
 
     def _extract_observation(self, obs):
         obs = obs.observation["screen"][_PLAYER_RELATIVE]
-        # obs = obs.reshape(self.observation_space.shape)
-        obs = obs.reshape((4096, ))
+        obs = obs.reshape(self.observation_space.shape)
+        # obs = obs.reshape((4096, ))
         # print('obs: ', obs)
         return obs
 
@@ -100,7 +103,7 @@ class BaseMovement1dEnv(SC2GameEnv):
 class BaseMovement2dEnv(BaseMovement1dEnv):
     def _get_action_space(self):
         screen_shape = self.observation_spec["screen"][1:]
-        return spaces.MultiDiscrete([s-1 for s in screen_shape])
+        return spaces.MultiDiscrete([s for s in screen_shape]) # or s-1
 
     def _translate_action(self, action):
         for ix, act in enumerate(action):

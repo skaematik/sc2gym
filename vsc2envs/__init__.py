@@ -1,0 +1,32 @@
+from gym.envs.registration import register
+
+register(
+    id='MoveToBeaconVEnv-v0',
+    entry_point='vsc2envs.envs:MoveToBeaconVEnv',
+    kwargs={}
+)
+register(
+    id='MovementBanditsModded-v0',
+    entry_point='vsc2envs.envs:MovementBanditsModded',
+    timestep_limit=50
+)
+register(
+    id='MovementBanditsMoveToBeacon-v0',
+    entry_point='vsc2envs.envs:MovementBanditsMoveToBeacon',
+    timestep_limit=50
+)
+register(
+    id='MovementBanditsMoveToBeaconReset-v0',
+    entry_point='vsc2envs.envs:MovementBanditsMoveToBeaconReset',
+    timestep_limit=50
+)
+register(
+    id='MovementBanditsMoveToBeaconResetA2C-v0',
+    entry_point='vsc2envs.envs:MovementBanditsMoveToBeaconResetA2C',
+    timestep_limit=50
+)
+register(
+    id='MovementBanditsMoveToBeaconClone-v0',
+    entry_point='vsc2envs.envs:MovementBanditsMoveToBeaconClone',
+    timestep_limit=50
+)

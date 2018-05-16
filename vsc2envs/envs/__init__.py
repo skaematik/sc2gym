@@ -1,0 +1,8 @@
+
+from vsc2envs.envs.move_to_beacon import MoveToBeaconVEnv
+from vsc2envs.envs.movement_bandits_modified import MovementBanditsModded
+from vsc2envs.envs.movement_bandits_beacon import MovementBanditsMoveToBeacon
+from vsc2envs.envs.movement_bandits_beacon_reset_goal import MovementBanditsMoveToBeaconReset
+from vsc2envs.envs.movement_bandits_beacon_reset_goal_a2c import MovementBanditsMoveToBeaconResetA2C
+from vsc2envs.envs.movement_bandits_beacon_clone import MovementBanditsMoveToBeaconClone
+

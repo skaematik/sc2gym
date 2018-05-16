@@ -23,3 +23,9 @@ setup(
     install_requires=['gym', 'pysc2', 'absl-py', 'numpy'],
     url='https://github.com/islamelnabarawy/sc2gym'
 )
+
+setup(
+    name='vsc2envs',
+    version='0.0.1',
+    install_requires=['gym', 'pysc2', 'absl-py', 'numpy']
+)

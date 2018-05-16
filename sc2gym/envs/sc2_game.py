@@ -35,6 +35,8 @@ class SC2GameEnv(gym.Env):
 
     def __init__(self, **kwargs) -> None:
         super().__init__()
+        self.step_mul = 32
+        self.step_mul = 8
         self._kwargs = kwargs
         self._env = None
 
@@ -43,8 +45,8 @@ class SC2GameEnv(gym.Env):
         self._episode_reward = 0
         self._total_reward = 0
 
-    def _render(self, mode,close):
-        return
+    def _render(self, mode, close=True):
+        logger.info("Asked to render with close: %d.", close)
 
     def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -59,6 +61,7 @@ class SC2GameEnv(gym.Env):
         if action[0] not in self.available_actions:
             # logger.warning("Attempted unavailable action: %s", action)
             action = [_NO_OP]
+            return False, False, False, False
         try:
             obs = self._env.step([actions.FunctionCall(action[0], action[1:])])[0]
         except KeyboardInterrupt:
@@ -93,7 +96,7 @@ class SC2GameEnv(gym.Env):
         self._env.save_replay(replay_dir)
 
     def _init_env(self):
-        self._env = sc2_env.SC2Env(**self._kwargs)
+        self._env = sc2_env.SC2Env(**self._kwargs, step_mul=self.step_mul)
 
     def close(self):
         if self._episode > 0:

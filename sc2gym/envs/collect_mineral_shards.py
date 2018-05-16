@@ -91,7 +91,7 @@ class CollectMineralShardsGroupsEnv(BaseMovement2dEnv):
 
     def _get_action_space(self):
         screen_shape = self.observation_spec["screen"][1:]
-            return spaces.MultiDiscrete([2] + [s-1 for s in screen_shape])
+        return spaces.MultiDiscrete([2] + [s-1 for s in screen_shape])
 
     def _translate_action(self, action):
         for ix, act in enumerate(action):
