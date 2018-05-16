@@ -65,7 +65,9 @@ class BaseMovement1dEnv(SC2GameEnv):
 
     def _get_observation_space(self):
         screen_shape = (1, ) + self.observation_spec["screen"][1:]
-        space = spaces.Box(low=0, high=_PLAYER_RELATIVE_SCALE, shape=screen_shape)
+        shaped = (self.observation_spec["screen"][1] * self.observation_spec["screen"][2],)
+        space = spaces.Box(low=0, high=_PLAYER_RELATIVE_SCALE, shape=shaped)
+        print('obs_space: ', space)
         return space
 
     @property
@@ -76,11 +78,15 @@ class BaseMovement1dEnv(SC2GameEnv):
 
     def _get_action_space(self):
         screen_shape = self.observation_spec["screen"][1:]
-        return spaces.Discrete(screen_shape[0] * screen_shape[1] - 1)
+        action_space = spaces.Discrete(screen_shape[0] * screen_shape[1] - 1)
+        print('action_space: ', action_space)
+        return action_space
 
     def _extract_observation(self, obs):
         obs = obs.observation["screen"][_PLAYER_RELATIVE]
-        obs = obs.reshape(self.observation_space.shape)
+        # obs = obs.reshape(self.observation_space.shape)
+        obs = obs.reshape((4096, ))
+        # print('obs: ', obs)
         return obs
 
     def _translate_action(self, action):

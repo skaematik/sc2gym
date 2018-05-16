@@ -22,6 +22,8 @@ from pysc2.lib import actions
 
 __author__ = 'Islam Elnabarawy'
 
+from gym.utils import seeding
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -41,13 +43,21 @@ class SC2GameEnv(gym.Env):
         self._episode_reward = 0
         self._total_reward = 0
 
+    def _render(self, mode,close):
+        return
+
+    def _seed(self, seed=None):
+        self.np_random, seed = seeding.np_random(seed)
+        print("seeded")
+        return [seed]
+
     def _step(self, action):
         return self._safe_step(action)
 
     def _safe_step(self, action):
         self._num_step += 1
         if action[0] not in self.available_actions:
-            logger.warning("Attempted unavailable action: %s", action)
+            # logger.warning("Attempted unavailable action: %s", action)
             action = [_NO_OP]
         try:
             obs = self._env.step([actions.FunctionCall(action[0], action[1:])])[0]

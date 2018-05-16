@@ -47,6 +47,17 @@ class CollectMineralShards1dEnv(BaseMovement1dEnv):
     def __init__(self, **kwargs):
         super().__init__(map_name=_MAP_NAME, **kwargs)
 
+    def _step(self, action):
+        if _MOVE_SCREEN not in self.available_actions:
+            action = [_SELECT_ARMY, _SELECT_ALL]
+            obs, reward, done, info = self._safe_step(action)
+            if obs is None:
+                return None, 0, True, {}
+            obs = self._extract_observation(obs)
+            return obs, reward, done, info
+        else:
+            return super()._step(action)
+
 
 class CollectMineralShards2dEnv(BaseMovement2dEnv):
     def __init__(self, **kwargs):
